@@ -23,10 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'profile',
     'item',
-    'cart',
     'order'
 ]
 
@@ -40,6 +40,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'   
+    ),
+}
+
 
 ROOT_URLCONF = 'settings.urls'
 
@@ -118,20 +129,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+_PATH = os.path.abspath(os.path.dirname(__file__))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+MEDIA_ROOT = os.path.join(_PATH, '../','media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(_PATH, '../','static')
 STATIC_URL = '/static/'
-
-
-# Rest framework permissions
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
 
 # don't use this in production
 # CORS_ORIGIN_ALLOW_ALL = True
