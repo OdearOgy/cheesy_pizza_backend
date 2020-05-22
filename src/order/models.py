@@ -35,7 +35,7 @@ class Order(models.Model):
         default=cash
     )
     item = models.ForeignKey('item.Item', on_delete=models.CASCADE)
-    author = models.ForeignKey('profile.Profile', on_delete=models.CASCADE)
+    author = models.ForeignKey('profile.Profile', on_delete=models.CASCADE, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     total_price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     delivery_fee = models.DecimalField(max_digits=7, decimal_places=2, default=0)
