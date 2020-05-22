@@ -3,13 +3,29 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
+
+if os.environ.get('SITE_MODE') == 'prod':
+    MODE = 'prod'
+    from settings.settings_prod import *
+else:
+    MODE = 'loc'
+    from settings.settings_loc import *
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'f9z)_#m4p%p4ee#98&aw$mpvkrs6@@ox%txbk#9mev2@yxhz4m'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -30,16 +46,6 @@ INSTALLED_APPS = [
     'order'
 ]
 
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -72,31 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# posrgres db settings for production use
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cheesy_pizza',
-        'USER': 'pizza_user',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-
-"""
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -135,10 +116,3 @@ MEDIA_ROOT = os.path.join(_PATH, '../','media')
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(_PATH, '../','static')
 STATIC_URL = '/static/'
-
-# don't use this in production
-# CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ORIGIN_WHITELIST = [
-    "http://127.0.0.1:3000"
-]
