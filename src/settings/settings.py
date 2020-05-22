@@ -18,10 +18,10 @@ MIDDLEWARE = [
 
 if os.environ.get('SITE_MODE') == 'prod':
     MODE = 'prod'
-    from settings.settings_prod import *
+    from .settings_prod import *
 else:
     MODE = 'loc'
-    from settings.settings_loc import *
+    from .settings_loc import *
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
