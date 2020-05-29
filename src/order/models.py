@@ -4,7 +4,7 @@ from core.utils import unique_slug_generator
 
 
 class OrderItem(models.Model):
-    item = models.ForeignKey('item.Item', on_delete=models.CASCADE)
+    item = models.ForeignKey('item.Item', on_delete=models.CASCADE,)
     quantity = models.PositiveIntegerField(default=1)
     slug = models.SlugField(max_length=64, unique=True, blank=True)
 
@@ -15,7 +15,7 @@ class OrderItem(models.Model):
     def save_slug(sender, instance, *args, **kwargs):
         if not instance.slug:
             instance.slug = unique_slug_generator(instance, instance.item.name, instance.slug)
-
+            
 
 pre_save.connect(OrderItem.save_slug, sender='order.OrderItem')
 
