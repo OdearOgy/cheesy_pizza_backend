@@ -1,11 +1,11 @@
 
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
-import datetime
+from uuid import uuid4
 import time
 
 def unique_slug_generator(instance, name, slug_field):
-    name_date = f'{name} {datetime.datetime.now()}'
+    name_date = f'{name} {uuid4()}'
     slug = slugify(name_date)
     return slug
 
