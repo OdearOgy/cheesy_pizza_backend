@@ -1,9 +1,14 @@
+from rest_framework.routers import DefaultRouter 
 from django.urls import path
+from .views import *
 
-from .views import ItemListView, ItemDetailView
+router = DefaultRouter()
 
+router.register(r'items', ItemViewSet, basename='item')
+router.register(r'orders', OrderViewSet, basename='order')
 
-urlpatterns = [
-    path('items/', ItemListView.as_view()),
-    path('items/<slug>', ItemDetailView.as_view())
+urlpatterns = router.urls
+
+urlpatterns += [
+    path('order/create/', makeOrder, name='make_order'),
 ]

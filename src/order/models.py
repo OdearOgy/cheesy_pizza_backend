@@ -51,7 +51,7 @@ class Order(models.Model):
         choices=PAYMENT_CHOICES,
         default=cash
     )
-    items = models.ManyToManyField('order.OrderItem',)
+    items = models.ManyToManyField('order.OrderItem', blank=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2, default=0,)
     delivery_fee = models.DecimalField(max_digits=7, decimal_places=2, default=0,)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -69,7 +69,7 @@ class Order(models.Model):
 
     def get_delivery_fee(self):
         if self.delivery_fee == 0:
-            self.delivery_fee = sum(map(lambda o: (o.item.price * o.item.slices) / o.quantity / 50, self.items.all()))
+            self.delivery_fee = sum(map(lambda o: (o.item.price * o.item.slices * o.quantity) / 100, self.items.all()))
             self.save()
         return self.delivery_fee
 
